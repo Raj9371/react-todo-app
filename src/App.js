@@ -1,24 +1,36 @@
-import logo from './logo.svg';
+import {useState} from 'react';
+import Header from './component/Header';
+import List from './component/List';
 import './App.css';
 
 function App() {
+  const [todo, setTodo] = useState([]);
+  const [searchText, setSearchText]= useState('');
+  const addTodo=(val)=>{
+    let data = {id: todo.length + 1,"name": val}
+    console.log(data)
+    setTodo([...todo, data])
+    setSearchText('')
+  }
+  const onDelete=(id)=>{
+    console.log(id)
+    let filterTodo = todo.filter(todo=> todo.id !== id)
+    setTodo(filterTodo)
+}
+  console.log("todo",todo)
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Header />
+      <div className="wrapper">
+        <List 
+          todo={todo} 
+          addTodo={addTodo}
+          searchText={searchText}
+          setSearchText={setSearchText}
+          onDelete={onDelete}
+          />
+      </div>
+    </>
   );
 }
 
